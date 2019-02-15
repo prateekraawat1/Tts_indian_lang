@@ -10,7 +10,7 @@
         android:id="@+id/textView_sentence"
         android:layout_width="170dp"
         android:layout_height="74dp"
-        android:text="Mom I'm home!"
+        android:text="spiderman!"
         android:textAlignment="center"
         android:textSize="25dp"
         android:textColor="@color/colorPrimary"
