@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         textview_sentence = findViewById(R.id.button_submit);
 
         speechrecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
-        Intent speechrecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        final Intent speechrecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechrecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechrecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
@@ -77,6 +78,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+
+                if (matches!=null)
+                    textview_sentence.setText(matches.get(0));
 
             }
 
@@ -99,10 +104,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case event.ACTION_UP:
                         textview_sentence.setHint("You will see the text here");
+                        speechrecognizer.stopListening();
                         break;
 
                     case event.ACTION_DOWN:
-                        textview_sentence.setHint("Listening");
+                        textview_sentence.setText("");
+                        textview_sentence.setHint("Listening...");
+                        speechrecognizer.startListening(speechrecognizerIntent);
                         break;
 
                 }
