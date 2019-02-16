@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Bharat Bhasha</string>
     <string name="app_version">Version = 0.0.1 BETA</string>
+    <string name="click_on_generate_another_sentence">Click on Generate Another Sentence!</string>
+    <string name="submit">Submit</string>
+    <string name="get_another_sentence">Get another sentence</string>
 </resources>
