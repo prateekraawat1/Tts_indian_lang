@@ -12,7 +12,7 @@
         android:layout_height="246dp"
         android:layout_margin="20px"
         android:layout_marginHorizontal="20mm"
-        android:text="Mom I'm home!"
+        android:text="Click on Generate Another Sentence!"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
