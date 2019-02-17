@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         textview_sentence = findViewById(R.id.button_submit);
 
         speechrecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
-        final Intent speechrecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        Intent speechrecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         speechrecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         speechrecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
@@ -102,15 +102,15 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
 
                 switch (event.getAction()) {
-                    case event.ACTION_UP:
+                    case MotionEvent.ACTION_UP:
                         textview_sentence.setHint("You will see the text here");
                         speechrecognizer.stopListening();
                         break;
 
-                    case event.ACTION_DOWN:
+                    case MotionEvent.ACTION_DOWN:
                         textview_sentence.setText("");
                         textview_sentence.setHint("Listening...");
-                        speechrecognizer.startListening(speechrecognizerIntent);
+                        speechrecognizer.startListening(speechrecognizerintent);
                         break;
 
                 }
