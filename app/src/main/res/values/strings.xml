@@ -5,4 +5,5 @@
     <string name="submit">Submit</string>
     <string name="click_on_generate_another_sentence">Click on Generate Another Sentence!</string>
     <string name="get_another_sentence">Get another sentence</string>
+    <string name="title">Title</string>
 </resources>
