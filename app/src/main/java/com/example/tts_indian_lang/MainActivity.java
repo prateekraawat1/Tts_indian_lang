@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         checkPermission();
 
 
-        textview_sentence = findViewById(R.id.button_submit);
+        textview_sentence = findViewById(R.id.textView_sentence);
 
         mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
