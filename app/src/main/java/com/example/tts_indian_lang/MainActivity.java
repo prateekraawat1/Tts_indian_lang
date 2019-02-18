@@ -25,8 +25,8 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     TextView textview_sentence;
-    SpeechRecognizer speechrecognizer;
-    Intent speechrecognizerintent;
+    SpeechRecognizer mSpeechRecognizer;
+    Intent mSpeechRecognizerIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
         textview_sentence = findViewById(R.id.button_submit);
 
-        speechrecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
-        Intent speechrecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        speechrecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+        mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
+        final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        speechrecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
                 Locale.getDefault());
 
-        speechrecognizer.setRecognitionListener(new RecognitionListener() {
+        mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
             public void onReadyForSpeech(Bundle params) {
 
@@ -104,13 +104,13 @@ public class MainActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
                         textview_sentence.setHint("You will see the text here");
-                        speechrecognizer.stopListening();
+                        mSpeechRecognizer.stopListening();
                         break;
 
                     case MotionEvent.ACTION_DOWN:
                         textview_sentence.setText("");
                         textview_sentence.setHint("Listening...");
-                        speechrecognizer.startListening(speechrecognizerintent);
+                        mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
                         break;
 
                 }
