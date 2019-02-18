@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
 import static java.lang.Boolean.getBoolean;
 
@@ -64,8 +63,5 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, SPLASH_TIME_OUT);
         }
-    }
-
-    public void generate_text(View view) {
     }
 }
