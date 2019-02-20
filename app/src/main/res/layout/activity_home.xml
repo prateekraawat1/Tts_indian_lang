@@ -12,6 +12,8 @@
         android:layout_height="246dp"
         android:layout_margin="20px"
         android:layout_marginHorizontal="20mm"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:text="Click on Generate Another Sentence!"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
