@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        findViewById(R.id.button_submit).setOnTouchListener(new View.OnTouchListener() {
+        findViewById(R.id.imageButton2).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
