@@ -2,13 +2,15 @@ package com.example.tts_indian_lang;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.view.PagerAdapter;
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import androidx.viewpager.widget.PagerAdapter;
 
 
 public class SlideAdapter extends PagerAdapter {
