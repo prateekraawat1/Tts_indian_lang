@@ -23,34 +23,33 @@ public class SlideAdapter extends PagerAdapter {
     //Array
     public int[] list_images={
 
-            R.drawable.hindi,
-            R.drawable.hindi,
-            R.drawable.hindi,
-            R.drawable.hindi
+            R.drawable.phone,
+            R.drawable.flight,
+            R.drawable.bus,
+            R.drawable.train
     };
 
     public String[] list_title={
 
-            "हिंदी",
-            "ਪੰਜਾਬੀ",
-            "भोजपुरी",
-            ""
+            "Phone",
+            "Flight",
+            "Bus",
+            "Train"
     };
 
     public String[] list_description={
 
-            "हिंदी बोलो और कमाओ",
-            "ਹਿੰਦੀ ਬੋਲਣ ਅਤੇ ਕਮਾਓ",
-            "\n" +
-                    "भोजपुरी बोलो और कमाओ",
-            ""
+            "Big discounts on Smart Phones",
+            "Upto 25% off on Domestic Flights",
+            "Enjoy Travelling on bus with flat 100 off",
+            "10% cashback on first train booking"
     };
     public int[] list_color={
 
-            Color.rgb(0,0,0),
-            Color.rgb(0,0,0),
-            Color.rgb(0,0,0),
-            Color.rgb(0,0,0)
+            Color.rgb(193, 66, 44),
+            Color.rgb(193, 172, 44),
+            Color.rgb(193, 41, 249),
+            Color.rgb(68, 83, 242)
 
     };
 
