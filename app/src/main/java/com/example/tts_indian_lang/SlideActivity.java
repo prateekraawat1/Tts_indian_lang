@@ -9,6 +9,8 @@ import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 public class SlideActivity extends AppCompatActivity {
@@ -18,7 +20,9 @@ public class SlideActivity extends AppCompatActivity {
     private SlideAdapter myadapter;
 
     private TextView[] mdots;
-    private Button next,back;
+    private Button next,back, submit;
+
+    private RadioGroup rg;
 
     private int mCureentPage;
 
@@ -32,6 +36,8 @@ public class SlideActivity extends AppCompatActivity {
 
         next=(Button)findViewById(R.id.nextBtn);
         back=(Button)findViewById(R.id.backBtn);
+
+        rg = (RadioGroup)findViewById(R.id.radioGroup);
 
         myadapter=new SlideAdapter(this);
         viewpager.setAdapter(myadapter);
@@ -114,6 +120,8 @@ public class SlideActivity extends AppCompatActivity {
 
                 next.setText("FINISH");
                 back.setText("BACK");
+
+                rg.setVisibility(View.VISIBLE);
 
             }
             else {
