@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <LinearLayout android:id="@+id/slidelinearlayout" android:orientation="vertical" android:gravity="center" android:layout_height="match_parent" android:layout_width="match_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:id="@+id/slideimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <TextView android:id="@+id/slidetitle" android:gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="25dp" android:fontFamily="monospace" android:textColor="#FFFFFF" android:textSize="40sp" android:hint="@string/title"/>
+
+    <TextView android:id="@+id/slidedescription" android:gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="25dp" android:fontFamily="sans-serif-condensed" android:textColor="#CCCCCC" android:textSize="20sp" android:hint="Description" android:padding="5dp"/>
+
+</LinearLayout>
