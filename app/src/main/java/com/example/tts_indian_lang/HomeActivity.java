@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -18,7 +19,6 @@ import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -26,6 +26,16 @@ public class HomeActivity extends AppCompatActivity {
     TextView textView_output;
     SpeechRecognizer mSpeechRecognizer;
     Intent mSpeechRecognizerIntent;
+    MediaRecorder myAudioRecorder;
+
+    {
+        myAudioRecorder = new MediaRecorder();
+        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        myAudioRecorder.setOutputFile(outputFile);
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
 
 
         findViewById(R.id.imageButton2).setOnTouchListener(new View.OnTouchListener() {
