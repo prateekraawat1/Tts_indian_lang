@@ -23,7 +23,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
-    TextView textView_output;
+    public static String language = "hindi";
+   TextView textView_output;
     SpeechRecognizer mSpeechRecognizer;
     Intent mSpeechRecognizerIntent;
 
@@ -37,7 +38,7 @@ public class HomeActivity extends AppCompatActivity {
 
         textView_output = findViewById(R.id.textView_output);
 
-        mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
+        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -79,7 +80,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onResults(Bundle results) {
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
 
-                if (matches!=null)
+                if (matches != null)
                     textView_output.setText(matches.get(0));
 
             }
@@ -118,12 +119,9 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void checkPermission()
-    {
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            if(!(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED))
-            {
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!(ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED)) {
                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
                 startActivity(intent);
                 finish();
@@ -131,25 +129,87 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    public void generate_text(View view) {
+    public void generate_text_hindi(HomeActivity view) {
         TextView sentenceTextView = (TextView) findViewById(R.id.textView_sentence);
-        String[] sentence=new String[10];
+        String[] sentence = new String[10];
         int i;
         //for(i=0;i<10;i++){
         //    sentence[i]="Hello "+i;
         //}
-        sentence[0]="मैरी पियानो बजाती है।";
-        sentence[1]="कृपया घर के बाहर प्रतीक्षा करें। |";
-        sentence[2]="जल्दी कीजिये!";
-        sentence[3]="वह अभी भी जीवित है।";
-        sentence[4]="हमारे यहां जून में बहुत बारिश होती है।";
-        sentence[5]="उसे पढ़ा नहीं।";
-        sentence[6]="उपस्थिति अच्छी नहीं थी";
-        sentence[7]="टूटे हुए कांच पर कदम न रखें।";
-        sentence[8]="उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।";
-        sentence[9]="रहस्यमयी डायरी आवाज रिकॉर्ड करती है।";
-        i=(int)(Math.random()*10);
+        sentence[0] = "मैरी पियानो बजाती है।";
+        sentence[1] = "कृपया घर के बाहर प्रतीक्षा करें। |";
+        sentence[2] = "जल्दी कीजिये!";
+        sentence[3] = "वह अभी भी जीवित है।";
+        sentence[4] = "हमारे यहां जून में बहुत बारिश होती है।";
+        sentence[5] = "उसे पढ़ा नहीं।";
+        sentence[6] = "उपस्थिति अच्छी नहीं थी";
+        sentence[7] = "टूटे हुए कांच पर कदम न रखें।";
+        sentence[8] = "उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।";
+        sentence[9] = "रहस्यमयी डायरी आवाज रिकॉर्ड करती है।";
+        i = (int) (Math.random() * 10);
         sentenceTextView.setText(sentence[i]);
 
+    }
+
+    public void generate_text_punjabi(HomeActivity view) {
+        TextView sentenceTextView = (TextView) findViewById(R.id.textView_sentence);
+        String[] sentence = new String[10];
+
+        {
+            int i;
+
+            //for(i=0;i<10;i++){
+            //    sentence[i]="Hello "+i;
+            //}
+            sentence[0] = "ਮੈਰੀ ਪਿਆਨੋ ਖੇਡਦੀ ਹ";
+            sentence[1] = "ਕਿਰਪਾ ਕਰਕੇ ਘਰ ਦੇ ਬਾਹਰ ਦੀ ਉਡੀਕ ਕਰੋ ";
+            sentence[2] = "ਜਲਦੀ ਕਰੋ";
+            sentence[3] = "ਉਹ ਅਜੇ ਵੀ ਜਿੰਦਾ ਹੈ";
+            sentence[4] = "ਸਾਡੇ ਕੋਲ ਜੂਨ ਵਿੱਚ ਬਹੁਤ ਮੀਂਹ ਪੈਂਦਾ ਹੈ";
+            sentence[5] = "ਦਿੱਖ ਚੰਗੀ ਨਹੀਂ ਸੀ";
+            sentence[6] = "ਇੱਕ ਖਰਾਬ ਗਲਾਸ ਤੇ ਨਾ ਜਾਵੋ";
+            sentence[7] = "ਉਸ ਨੇ ਉਸ ਨੂੰ ਇਕ ਲੰਬੀ ਚਿੱਠੀ ਲਿਖੀ, ਪਰ ਉਸ ਨੇ ਇਸ ਨੂੰ ਨਹੀਂ ਪੜ੍ਹਿਆ";
+            sentence[8] = "ਰਹੱਸਮਈ ਡਾਇਰੀ ਆਵਾਜ਼ ਰਿਕਾਰਡ ਕਰਦੀ ਹੈ";
+            sentence[9] = "ਦਿੱਖ ਚੰਗੀ ਨਹੀਂ ਸੀ";
+            i = (int) (Math.random() * 10);
+            sentenceTextView.setText(sentence[i]);
+        }
+    }
+
+    public void generate_text_marathi(HomeActivity view) {
+        TextView sentenceTextView = (TextView) findViewById(R.id.textView_sentence);
+        String[] sentence = new String[10];
+
+        {
+            int i;
+
+            //for(i=0;i<10;i++){
+            //    sentence[i]="Hello "+i;
+            //}
+            sentence[0] = "मरीया पियानो वाजवते";
+            sentence[1] = " कृपया घराच्या बाहेर प्रतीक्षा करा";
+            sentence[2] = "त्वरा करा";
+            sentence[3] = "तो अजूनही जिवंत आहे";
+            sentence[4] = "जूनमध्ये आमच्याकडे खूप पाऊस पडला आहे";
+            sentence[5] = "ते वाचले नाही";
+            sentence[6] = "देखावा चांगला नव्हता";
+            sentence[7] = "तुटलेल्या काचेच्या वर जाऊ नका";
+            sentence[8] = "त्याने त्याला एक लांब पत्र लिहिले, परंतु त्याने ते वाचले नाही";
+            sentence[9] = "रहस्यमय डायरीने आवाज नोंदविला";
+            i = (int) (Math.random() * 10);
+            sentenceTextView.setText(sentence[i]);
+        }
+    }
+
+    public void generate_text() {
+        if (language.equals("hindi")) {
+            generate_text_hindi(this);
+        }
+        else if (language.equals("punjabi"))
+        {            generate_text_punjabi(this);}
+
+        else
+        {       generate_text_marathi(this);
+    }
     }
 }
