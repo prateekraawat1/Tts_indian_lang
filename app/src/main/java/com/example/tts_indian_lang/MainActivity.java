@@ -52,13 +52,13 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 }
             }, SPLASH_TIME_OUT);
-            prefs.edit().putBoolean("firstrun", false).commit();
+            prefs.edit().putBoolean("firstrun", false).apply();
         }
         else if (!(prefs.getBoolean("firstrun", true))) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                    Intent homeIntent = new Intent(MainActivity.this, LangSelect.class);
                     startActivity(homeIntent);
                     finish();
                 }

@@ -46,8 +46,8 @@ public class SlideActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Intent homeIntent = new Intent(SlideActivity.this, HomeActivity.class);
-                            startActivity(homeIntent);
+                            Intent langIntent = new Intent(SlideActivity.this, LangSelect.class);
+                            startActivity(langIntent);
                             finish();
                         }
                     }, 0);
