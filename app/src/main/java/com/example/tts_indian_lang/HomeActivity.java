@@ -224,13 +224,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void generate_text() {
-        if (language.equals("hindi")) {
+        if (globalvariable.getLangChoice() == 1) {
             generate_text_hindi(this);
         }
-        else if (language.equals("punjabi"))
+        else if (globalvariable.getLangChoice() == 2)
         {            generate_text_punjabi(this);}
 
-        else
+        else if (globalvariable.getLangChoice() == 3)
         {       generate_text_marathi(this);
     }
     }
