@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.Settings;
 import android.speech.RecognitionListener;
@@ -18,7 +19,10 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -27,15 +31,8 @@ public class HomeActivity extends AppCompatActivity {
     SpeechRecognizer mSpeechRecognizer;
     Intent mSpeechRecognizerIntent;
     MediaRecorder myAudioRecorder;
-
-    {
-        myAudioRecorder = new MediaRecorder();
-        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        myAudioRecorder.setOutputFile(outputFile);
-
-    }
+    String outputFile;
+    ImageButton imageButton2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +40,15 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         checkPermission();
-
-
         textView_output = findViewById(R.id.textView_output);
+
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+
+        myAudioRecorder = new MediaRecorder();
+        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        myAudioRecorder.setOutputFile(outputFile);
 
         mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -114,12 +117,23 @@ public class HomeActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
                         textView_output.setHint("You will see the text here");
+                        myAudioRecorder.stop();
                         mSpeechRecognizer.stopListening();
+
                         break;
 
                     case MotionEvent.ACTION_DOWN:
                         textView_output.setText("");
                         textView_output.setHint("Listening...");
+                        try{
+                            myAudioRecorder.prepare();
+                            myAudioRecorder.start();
+                        } catch (IllegalStateException ise) {
+                            // make something...
+                        } catch (IOException ioe) {
+                            // make somwething...
+                        }
+
                         mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
                         break;
 
