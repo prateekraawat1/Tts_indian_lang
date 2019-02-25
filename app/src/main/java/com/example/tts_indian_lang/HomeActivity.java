@@ -3,7 +3,10 @@ package com.example.tts_indian_lang;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -21,8 +24,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
@@ -32,7 +39,10 @@ public class HomeActivity extends AppCompatActivity
     TextView textView_output;
     SpeechRecognizer mSpeechRecognizer;
     Intent mSpeechRecognizerIntent;
-
+    MediaRecorder myAudioRecorder;
+    String outputFile;
+    ImageButton imageButton2;
+    Button play;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +73,15 @@ public class HomeActivity extends AppCompatActivity
         checkPermission();
 
         textView_output = findViewById(R.id.textView_output);
+        play = (Button) findViewById(R.id.play);
+
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+
+        myAudioRecorder = new MediaRecorder();
+        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        myAudioRecorder.setOutputFile(outputFile);
 
         mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -124,18 +143,45 @@ public class HomeActivity extends AppCompatActivity
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        textView_output.setHint("You will see the text here");
-                        mSpeechRecognizer.stopListening();
+                        textView_output.setHint("recorded...");
+                        myAudioRecorder.stop();
+                        myAudioRecorder.release();
+                        myAudioRecorder = null;
+
                         break;
 
                     case MotionEvent.ACTION_DOWN:
                         textView_output.setText("");
-                        textView_output.setHint("Listening...");
-                        mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
+                        textView_output.setHint("Recording Started...");
+                        try{
+                            myAudioRecorder.prepare();
+                            myAudioRecorder.start();
+                        } catch (IllegalStateException ise) {
+                            // make something...
+                        } catch (IOException ioe) {
+                            // make somwething...
+                        }
+
+
                         break;
 
                 }
                 return false;
+            }
+        });
+
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(outputFile);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                    Toast.makeText(getApplicationContext(), "Playing Audio", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    // make something
+                }
             }
         });
 
