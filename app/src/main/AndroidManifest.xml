@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Feedback"></activity>
+        <activity android:name=".TTS"></activity>
+        <activity android:name=".Feedback" />
         <activity android:name=".Earnings" />
         <activity android:name=".About" />
         <activity android:name=".LangSelect" />
