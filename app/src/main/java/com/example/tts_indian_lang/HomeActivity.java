@@ -116,15 +116,17 @@ public class HomeActivity extends AppCompatActivity {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_UP:
-                        textView_output.setHint("You will see the text here");
+                        textView_output.setHint("recorded...");
                         myAudioRecorder.stop();
+                        myAudioRecorder.release();
+                        myAudioRecorder = null;
                         mSpeechRecognizer.stopListening();
 
                         break;
 
                     case MotionEvent.ACTION_DOWN:
                         textView_output.setText("");
-                        textView_output.setHint("Listening...");
+                        textView_output.setHint("Recording Started...");
                         try{
                             myAudioRecorder.prepare();
                             myAudioRecorder.start();
