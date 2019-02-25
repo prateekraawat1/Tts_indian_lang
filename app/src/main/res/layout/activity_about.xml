@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".About">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="156dp"
+        android:layout_height="162dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="150dp"
+        app:srcCompat="@drawable/about"
+        tools:layout_editor_absoluteX="118dp"
+        tools:layout_editor_absoluteY="143dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="147dp"
+        android:layout_height="43dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="290dp"
+        android:fontFamily="sans-serif-black"
+        android:text="About Us"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        tools:layout_editor_absoluteX="123dp"
+        tools:layout_editor_absoluteY="326dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="124dp"
+        android:layout_height="46dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="340dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="v1.0.0 (Beta)"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        tools:layout_editor_absoluteX="143dp"
+        tools:layout_editor_absoluteY="406dp" />
+
+</RelativeLayout>
