@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
@@ -32,6 +33,7 @@ public class HomeActivity extends AppCompatActivity
     TextView textView_output;
     SpeechRecognizer mSpeechRecognizer;
     Intent mSpeechRecognizerIntent;
+    int languageChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,6 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);  //floating button
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +65,7 @@ public class HomeActivity extends AppCompatActivity
 
         textView_output = findViewById(R.id.textView_output);
 
-        mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
+        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
         final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
@@ -103,7 +104,11 @@ public class HomeActivity extends AppCompatActivity
             }
 
             @Override
-            public void onResults(Bundle bundle) {
+            public void onResults(Bundle results) {
+                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+
+                if (matches != null)
+                    textView_output.setText(matches.get(0));
 
             }
 
@@ -205,8 +210,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private void checkPermission()
-    {
+    private void checkPermission() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO)
@@ -234,26 +238,69 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    public void generate_text(View view) {
-        TextView sentenceTextView = (TextView) findViewById(R.id.textView_sentence);
-        String[] sentence=new String[10];
-        int i;
-        //for(i=0;i<10;i++){
-        //    sentence[i]="Hello "+i;
-        //}
-        sentence[0]="मैरी पियानो बजाती है।";
-        sentence[1]="कृपया घर के बाहर प्रतीक्षा करें। |";
-        sentence[2]="जल्दी कीजिये!";
-        sentence[3]="वह अभी भी जीवित है।";
-        sentence[4]="हमारे यहां जून में बहुत बारिश होती है।";
-        sentence[5]="उसे पढ़ा नहीं।";
-        sentence[6]="उपस्थिति अच्छी नहीं थी";
-        sentence[7]="टूटे हुए कांच पर कदम न रखें।";
-        sentence[8]="उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।";
-        sentence[9]="रहस्यमयी डायरी आवाज रिकॉर्ड करती है।";
-        i=(int)(Math.random()*10);
-        sentenceTextView.setText(sentence[i]
-        );
 
+    String[] hindi_sentence = new String[] {
+        "मैरी पियानो बजाती है।",
+        "कृपया घर के बाहर प्रतीक्षा करें। |",
+        "जल्दी कीजिये!",
+        "वह अभी भी जीवित है।",
+        "हमारे यहां जून में बहुत बारिश होती है।",
+        "उसे पढ़ा नहीं।",
+        "उपस्थिति अच्छी नहीं थी",
+        "टूटे हुए कांच पर कदम न रखें।",
+        "उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।",
+        "रहस्यमयी डायरी आवाज रिकॉर्ड करती है।"
+    };
+
+
+    String[] punjabi_sentence = new String[] {
+        "ਮੈਰੀ ਪਿਆਨੋ ਖੇਡਦੀ ਹ",
+        "ਕਿਰਪਾ ਕਰਕੇ ਘਰ ਦੇ ਬਾਹਰ ਦੀ ਉਡੀਕ ਕਰੋ",
+        "ਜਲਦੀ ਕਰੋ",
+        "ਉਹ ਅਜੇ ਵੀ ਜਿੰਦਾ ਹੈ",
+        "ਸਾਡੇ ਕੋਲ ਜੂਨ ਵਿੱਚ ਬਹੁਤ ਮੀਂਹ ਪੈਂਦਾ ਹੈ",
+        "ਦਿੱਖ ਚੰਗੀ ਨਹੀਂ ਸੀ",
+        "ਇੱਕ ਖਰਾਬ ਗਲਾਸ ਤੇ ਨਾ ਜਾਵੋ",
+        "ਉਸ ਨੇ ਉਸ ਨੂੰ ਇਕ ਲੰਬੀ ਚਿੱਠੀ ਲਿਖੀ, ਪਰ ਉਸ ਨੇ ਇਸ ਨੂੰ ਨਹੀਂ ਪੜ੍ਹਿਆ",
+        "ਦਿੱਖ ਚੰਗੀ ਨਹੀਂ ਸੀ",
+        "ਰਹੱਸਮਈ ਡਾਇਰੀ ਆਵਾਜ਼ ਰਿਕਾਰਡ ਕਰਦੀ ਹੈ"
+
+    };
+
+    String[] marathi_sentence = new String[] {
+        "मरीया पियानो वाजवते",
+        "कृपया घराच्या बाहेर प्रतीक्षा करा",
+        "त्वरा करा",
+        "तो अजूनही जिवंत आहे",
+        "जूनमध्ये आमच्याकडे खूप पाऊस पडला आहे",
+        "ते वाचले नाही",
+        "देखावा चांगला नव्हता",
+        "तुटलेल्या काचेच्या वर जाऊ नका",
+        "त्याने त्याला एक लांब पत्र लिहिले, परंतु त्याने ते वाचले नाही",
+        "रहस्यमय डायरीने आवाज नोंदविला"
+    };
+
+    public void generate_text(View view) {
+
+        final GlobalClass globalvariable = (GlobalClass) getApplicationContext();
+        languageChoice = globalvariable.getLangChoice();
+
+        if (languageChoice == 1){
+            TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
+            int i=(int)(Math.random()*10);
+            sentenceTextView.setText(hindi_sentence[i]);
+        }
+
+        else if (languageChoice == 2){
+            TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
+            int i=(int)(Math.random()*10);
+            sentenceTextView.setText(punjabi_sentence[i]);
+        }
+
+        else if (languageChoice == 3){
+            TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
+            int i=(int)(Math.random()*10);
+            sentenceTextView.setText(marathi_sentence[i]);
+        }
     }
 }
