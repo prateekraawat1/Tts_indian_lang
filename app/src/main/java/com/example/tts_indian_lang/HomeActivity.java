@@ -25,10 +25,10 @@ import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
-    final GlobalClass globalvariable = (GlobalClass) getApplicationContext();
     TextView textView_output;
     SpeechRecognizer mSpeechRecognizer;
     Intent mSpeechRecognizerIntent;
+    int languageChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,6 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         checkPermission();
-
 
         textView_output = findViewById(R.id.textView_output);
 
@@ -193,19 +192,23 @@ public class HomeActivity extends AppCompatActivity {
     };
 
     public void generate_text(View view) {
-        if (globalvariable.getLangChoice() == 1){
+
+        final GlobalClass globalvariable = (GlobalClass) getApplicationContext();
+        languageChoice = globalvariable.getLangChoice();
+
+        if (languageChoice == 1){
             TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
             int i=(int)(Math.random()*10);
             sentenceTextView.setText(hindi_sentence[i]);
         }
 
-        else if (globalvariable.getLangChoice() == 2){
+        else if (languageChoice == 2){
             TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
             int i=(int)(Math.random()*10);
             sentenceTextView.setText(punjabi_sentence[i]);
         }
 
-        else if (globalvariable.getLangChoice() == 3){
+        else if (languageChoice == 3){
             TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
             int i=(int)(Math.random()*10);
             sentenceTextView.setText(marathi_sentence[i]);
