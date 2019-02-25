@@ -66,7 +66,7 @@ public class SlideActivity extends AppCompatActivity {
 
     public void adddots(int i){
 
-        mdots=new TextView[4];
+        mdots=new TextView[3];
         liner.removeAllViews();
 
         for (int x=0;x<mdots.length;x++){

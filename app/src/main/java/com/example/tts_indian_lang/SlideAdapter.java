@@ -26,7 +26,7 @@ public class SlideAdapter extends PagerAdapter {
             R.drawable.hindi,
             R.drawable.hindi,
             R.drawable.hindi,
-            R.drawable.hindi
+
     };
 
     public String[] list_title={
@@ -34,7 +34,7 @@ public class SlideAdapter extends PagerAdapter {
             "हिंदी",
             "ਪੰਜਾਬੀ",
             "भोजपुरी",
-            ""
+
     };
 
     public String[] list_description={
@@ -43,14 +43,14 @@ public class SlideAdapter extends PagerAdapter {
             "ਹਿੰਦੀ ਬੋਲਣ ਅਤੇ ਕਮਾਓ",
             "\n" +
                     "भोजपुरी बोलो और कमाओ",
-            ""
+
     };
     public int[] list_color={
 
             Color.rgb(0,0,0),
             Color.rgb(0,0,0),
             Color.rgb(0,0,0),
-            Color.rgb(0,0,0)
+
 
     };
 

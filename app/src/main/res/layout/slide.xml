@@ -12,6 +12,16 @@
 
     <TextView android:id="@+id/slidetitle" android:gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="25dp" android:fontFamily="monospace" android:textColor="#FFFFFF" android:textSize="40sp" android:hint="@string/title"/>
 
-    <TextView android:id="@+id/slidedescription" android:gravity="center" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_marginTop="25dp" android:fontFamily="sans-serif-condensed" android:textColor="#CCCCCC" android:textSize="20sp" android:hint="Description" android:padding="5dp"/>
+    <TextView
+        android:id="@+id/slidedescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:hint="Description"
+        android:padding="5dp"
+        android:textColor="#CCCCCC"
+        android:textSize="20sp" />
 
 </LinearLayout>
