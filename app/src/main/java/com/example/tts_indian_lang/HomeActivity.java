@@ -106,7 +106,6 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onResults(Bundle results) {
                 ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-
                 if (matches != null)
                     textView_output.setText(matches.get(0));
 
