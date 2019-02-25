@@ -1,29 +1,33 @@
 package com.example.tts_indian_lang;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Handler;
-import android.provider.Settings;
+import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.MotionEvent;
-import android.view.TextureView;
 import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
+
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
     TextView textView_output;
     SpeechRecognizer mSpeechRecognizer;
@@ -33,9 +37,30 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+       /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);  //floating button
+
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        }*/;
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         checkPermission();
-
 
         textView_output = findViewById(R.id.textView_output);
 
@@ -48,7 +73,7 @@ public class HomeActivity extends AppCompatActivity {
 
         mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
             @Override
-            public void onReadyForSpeech(Bundle params) {
+            public void onReadyForSpeech(Bundle bundle) {
 
             }
 
@@ -58,12 +83,12 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onRmsChanged(float rmsdB) {
+            public void onRmsChanged(float v) {
 
             }
 
             @Override
-            public void onBufferReceived(byte[] buffer) {
+            public void onBufferReceived(byte[] bytes) {
 
             }
 
@@ -73,30 +98,25 @@ public class HomeActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onError(int error) {
+            public void onError(int i) {
 
             }
 
             @Override
-            public void onResults(Bundle results) {
-                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-
-                if (matches!=null)
-                    textView_output.setText(matches.get(0));
+            public void onResults(Bundle bundle) {
 
             }
 
             @Override
-            public void onPartialResults(Bundle partialResults) {
+            public void onPartialResults(Bundle bundle) {
 
             }
 
             @Override
-            public void onEvent(int eventType, Bundle params) {
+            public void onEvent(int i, Bundle bundle) {
 
             }
         });
-
 
         findViewById(R.id.imageButton2).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -118,8 +138,72 @@ public class HomeActivity extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home) {
+            // Handle the camera action
+            Intent homeIntent = new Intent(HomeActivity.this, HomeActivity.class);
+            startActivity(homeIntent);
+        } else if (id == R.id.nav_earn) {
+            Intent homeIntent = new Intent(HomeActivity.this, Earnings.class);
+            startActivity(homeIntent);
+
+        } else if (id == R.id.nav_changelang) {
+            Intent homeIntent = new Intent(HomeActivity.this, LangSelect.class);
+            startActivity(homeIntent);
+
+        } else if (id == R.id.nav_feedback) {
+            Intent homeIntent = new Intent(HomeActivity.this, Feedback.class);
+            startActivity(homeIntent);
+
+        } else if (id == R.id.nav_About) {
+            Intent homeIntent = new Intent(HomeActivity.this, About.class);
+            startActivity(homeIntent);
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 
     private void checkPermission()
     {
@@ -168,7 +252,8 @@ public class HomeActivity extends AppCompatActivity {
         sentence[8]="उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।";
         sentence[9]="रहस्यमयी डायरी आवाज रिकॉर्ड करती है।";
         i=(int)(Math.random()*10);
-        sentenceTextView.setText(sentence[i]);
+        sentenceTextView.setText(sentence[i]
+        );
 
     }
 }
