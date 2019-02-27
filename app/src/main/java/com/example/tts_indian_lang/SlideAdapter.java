@@ -33,7 +33,7 @@ public class SlideAdapter extends PagerAdapter {
 
             "हिंदी",
             "বাংলা",
-            "తెలుగు",
+            "தமிழ்",
 
     };
 
@@ -43,7 +43,7 @@ public class SlideAdapter extends PagerAdapter {
             "\n" +
                     "বাংলা বলুন এবং অর্থ উপার্জন করুন",
             "\n" +
-                    "తెలుగు మాట్లాడి డబ్బు సంపాదించండి",
+                    "தமிழ் பேசி பணம் சம்பாதிக்கவும்",
 
     };
     public int[] list_color={
