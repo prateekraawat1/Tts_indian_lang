@@ -29,7 +29,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
@@ -42,7 +45,9 @@ public class HomeActivity extends AppCompatActivity
     MediaRecorder myAudioRecorder;
     String outputFile;
     ImageButton imageButton2;
-    Button play;
+    Button play, record, stop;
+    int languageChoice;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +56,6 @@ public class HomeActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);  //floating button
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +76,12 @@ public class HomeActivity extends AppCompatActivity
 
         checkPermission();
 
-        textView_output = findViewById(R.id.textView_output);
+           
         play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
+        record = (Button) findViewById(R.id.record);
+        stop.setEnabled(false);
+        play.setEnabled(false);
 
         outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
 
@@ -83,92 +91,36 @@ public class HomeActivity extends AppCompatActivity
         myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         myAudioRecorder.setOutputFile(outputFile);
 
-        mSpeechRecognizer  = SpeechRecognizer.createSpeechRecognizer(this);
-        final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                Locale.getDefault());
-
-        mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
+        record.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onReadyForSpeech(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onBeginningOfSpeech() {
-
-            }
-
-            @Override
-            public void onRmsChanged(float v) {
-
-            }
-
-            @Override
-            public void onBufferReceived(byte[] bytes) {
-
-            }
-
-            @Override
-            public void onEndOfSpeech() {
-
-            }
-
-            @Override
-            public void onError(int i) {
-
-            }
-
-            @Override
-            public void onResults(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onPartialResults(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onEvent(int i, Bundle bundle) {
-
-            }
-        });
-
-        findViewById(R.id.imageButton2).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_UP:
-                        textView_output.setHint("recorded...");
-                        myAudioRecorder.stop();
-                        myAudioRecorder.release();
-                        myAudioRecorder = null;
-
-                        break;
-
-                    case MotionEvent.ACTION_DOWN:
-                        textView_output.setText("");
-                        textView_output.setHint("Recording Started...");
-                        try{
-                            myAudioRecorder.prepare();
-                            myAudioRecorder.start();
-                        } catch (IllegalStateException ise) {
-                            // make something...
-                        } catch (IOException ioe) {
-                            // make somwething...
-                        }
-
-
-                        break;
-
+            public void onClick(View v) {
+                try {
+                    myAudioRecorder.prepare();
+                    myAudioRecorder.start();
+                } catch (IllegalStateException ise) {
+                    // make something ...
+                } catch (IOException ioe) {
+                    // make something
                 }
-                return false;
+                record.setEnabled(false);
+                stop.setEnabled(true);
+                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
             }
         });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAudioRecorder.stop();
+                myAudioRecorder.release();
+                myAudioRecorder = null;
+                record.setEnabled(true);
+                stop.setEnabled(false);
+                play.setEnabled(true);
+                Toast.makeText(getApplicationContext(), "Audio Recorder successfully", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,8 +203,7 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
-    private void checkPermission()
-    {
+    private void checkPermission() {
         // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.RECORD_AUDIO)
@@ -280,26 +231,69 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    public void generate_text(View view) {
-        TextView sentenceTextView = (TextView) findViewById(R.id.textView_sentence);
-        String[] sentence=new String[10];
-        int i;
-        //for(i=0;i<10;i++){
-        //    sentence[i]="Hello "+i;
-        //}
-        sentence[0]="मैरी पियानो बजाती है।";
-        sentence[1]="कृपया घर के बाहर प्रतीक्षा करें। |";
-        sentence[2]="जल्दी कीजिये!";
-        sentence[3]="वह अभी भी जीवित है।";
-        sentence[4]="हमारे यहां जून में बहुत बारिश होती है।";
-        sentence[5]="उसे पढ़ा नहीं।";
-        sentence[6]="उपस्थिति अच्छी नहीं थी";
-        sentence[7]="टूटे हुए कांच पर कदम न रखें।";
-        sentence[8]="उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।";
-        sentence[9]="रहस्यमयी डायरी आवाज रिकॉर्ड करती है।";
-        i=(int)(Math.random()*10);
-        sentenceTextView.setText(sentence[i]
-        );
 
+    String[] hindi_sentence = new String[] {
+        "मैरी पियानो बजाती है।",
+        "कृपया घर के बाहर प्रतीक्षा करें। |",
+        "जल्दी कीजिये!",
+        "वह अभी भी जीवित है।",
+        "हमारे यहां जून में बहुत बारिश होती है।",
+        "उसे पढ़ा नहीं।",
+        "उपस्थिति अच्छी नहीं थी",
+        "टूटे हुए कांच पर कदम न रखें।",
+        "उसने उसे एक लंबा पत्र लिखा, लेकिन उसने उसे पढ़ा नहीं।",
+        "रहस्यमयी डायरी आवाज रिकॉर्ड करती है।"
+    };
+
+
+    String[] punjabi_sentence = new String[] {
+        "ਮੈਰੀ ਪਿਆਨੋ ਖੇਡਦੀ ਹ",
+        "ਕਿਰਪਾ ਕਰਕੇ ਘਰ ਦੇ ਬਾਹਰ ਦੀ ਉਡੀਕ ਕਰੋ",
+        "ਜਲਦੀ ਕਰੋ",
+        "ਉਹ ਅਜੇ ਵੀ ਜਿੰਦਾ ਹੈ",
+        "ਸਾਡੇ ਕੋਲ ਜੂਨ ਵਿੱਚ ਬਹੁਤ ਮੀਂਹ ਪੈਂਦਾ ਹੈ",
+        "ਦਿੱਖ ਚੰਗੀ ਨਹੀਂ ਸੀ",
+        "ਇੱਕ ਖਰਾਬ ਗਲਾਸ ਤੇ ਨਾ ਜਾਵੋ",
+        "ਉਸ ਨੇ ਉਸ ਨੂੰ ਇਕ ਲੰਬੀ ਚਿੱਠੀ ਲਿਖੀ, ਪਰ ਉਸ ਨੇ ਇਸ ਨੂੰ ਨਹੀਂ ਪੜ੍ਹਿਆ",
+        "ਦਿੱਖ ਚੰਗੀ ਨਹੀਂ ਸੀ",
+        "ਰਹੱਸਮਈ ਡਾਇਰੀ ਆਵਾਜ਼ ਰਿਕਾਰਡ ਕਰਦੀ ਹੈ"
+
+    };
+
+    String[] marathi_sentence = new String[] {
+        "मरीया पियानो वाजवते",
+        "कृपया घराच्या बाहेर प्रतीक्षा करा",
+        "त्वरा करा",
+        "तो अजूनही जिवंत आहे",
+        "जूनमध्ये आमच्याकडे खूप पाऊस पडला आहे",
+        "ते वाचले नाही",
+        "देखावा चांगला नव्हता",
+        "तुटलेल्या काचेच्या वर जाऊ नका",
+        "त्याने त्याला एक लांब पत्र लिहिले, परंतु त्याने ते वाचले नाही",
+        "रहस्यमय डायरीने आवाज नोंदविला"
+    };
+
+    public void generate_text(View view) {
+
+        final GlobalClass globalvariable = (GlobalClass) getApplicationContext();
+        languageChoice = globalvariable.getLangChoice();
+
+        if (languageChoice == 1){
+            TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
+            int i=(int)(Math.random()*10);
+            sentenceTextView.setText(hindi_sentence[i]);
+        }
+
+        else if (languageChoice == 2){
+            TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
+            int i=(int)(Math.random()*10);
+            sentenceTextView.setText(punjabi_sentence[i]);
+        }
+
+        else if (languageChoice == 3){
+            TextView sentenceTextView=(TextView)findViewById(R.id.textView_sentence);
+            int i=(int)(Math.random()*10);
+            sentenceTextView.setText(marathi_sentence[i]);
+        }
     }
 }
