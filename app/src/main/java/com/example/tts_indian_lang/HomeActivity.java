@@ -86,11 +86,7 @@ public class HomeActivity extends AppCompatActivity
         play.setEnabled(false);
 
 
-        myAudioRecorder = new MediaRecorder();
-        myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
-        myAudioRecorder.setOutputFile(outputFile);
+  
 
 
         record.setOnClickListener(new View.OnClickListener() {
@@ -111,10 +107,6 @@ public class HomeActivity extends AppCompatActivity
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
 
-
-
-                    myAudioRecorder.prepare();
-                    myAudioRecorder.start();
                 } catch (IllegalStateException ise) {
                     // make something ...
                 } catch (IOException ioe) {
