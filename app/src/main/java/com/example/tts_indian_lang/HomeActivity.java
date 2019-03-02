@@ -30,18 +30,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-
+import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
-    TextView textView_output;
-    SpeechRecognizer mSpeechRecognizer;
-    Intent mSpeechRecognizerIntent;
+
+
     MediaRecorder myAudioRecorder;
     String outputFile;
     ImageButton imageButton2;
@@ -76,14 +78,13 @@ public class HomeActivity extends AppCompatActivity
 
         checkPermission();
 
-           
+        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
         record = (Button) findViewById(R.id.record);
         stop.setEnabled(false);
         play.setEnabled(false);
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
 
         myAudioRecorder = new MediaRecorder();
         myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -91,10 +92,27 @@ public class HomeActivity extends AppCompatActivity
         myAudioRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
         myAudioRecorder.setOutputFile(outputFile);
 
+
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
+
+                    // make sure the directory we plan to store the recording in exists
+                    File directory = new File(outputFile).getParentFile();
+                    if (!directory.exists() && !directory.mkdirs()) {
+                        throw new IOException("Path to file could not be created.");
+                    }
+                    myAudioRecorder = new MediaRecorder();
+                    myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                    myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    myAudioRecorder.setOutputFile(outputFile);
+                    myAudioRecorder.prepare();
+                    myAudioRecorder.start();
+
+
+
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
                 } catch (IllegalStateException ise) {
@@ -117,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
                 record.setEnabled(true);
                 stop.setEnabled(false);
                 play.setEnabled(true);
-                Toast.makeText(getApplicationContext(), "Audio Recorder successfully", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Audio Recorded successfully", Toast.LENGTH_LONG).show();
             }
         });
 
