@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity
 
 
     MediaRecorder myAudioRecorder;
-    String outputFile;
+    String outputfile;
     ImageButton imageButton2;
     Button play, record, stop;
     int languageChoice;
@@ -78,7 +78,7 @@ public class HomeActivity extends AppCompatActivity
 
         checkPermission();
 
-        outputFile = Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording.3gp";
+
         play = (Button) findViewById(R.id.play);
         stop = (Button) findViewById(R.id.stop);
         record = (Button) findViewById(R.id.record);
@@ -94,8 +94,9 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 try {
 
+                    outputfile=outputFile();
                     // make sure the directory we plan to store the recording in exists
-                    File directory = new File(outputFile).getParentFile();
+                    File directory = new File(outputfile).getParentFile();
                     if (!directory.exists() && !directory.mkdirs()) {
                         throw new IOException("Path to file could not be created.");
                     }
@@ -103,7 +104,7 @@ public class HomeActivity extends AppCompatActivity
                     myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
                     myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
                     myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-                    myAudioRecorder.setOutputFile(outputFile);
+                    myAudioRecorder.setOutputFile(outputFile());
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
 
@@ -137,7 +138,7 @@ public class HomeActivity extends AppCompatActivity
             public void onClick(View v) {
                 MediaPlayer mediaPlayer = new MediaPlayer();
                 try {
-                    mediaPlayer.setDataSource(outputFile);
+                    mediaPlayer.setDataSource(outputfile);
                     mediaPlayer.prepare();
                     mediaPlayer.start();
                     Toast.makeText(getApplicationContext(), "Playing Audio", Toast.LENGTH_LONG).show();
@@ -147,6 +148,17 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    public String dateTime(){
+        DateFormat df = new SimpleDateFormat("yyMMddHHmmss");
+        Date dateobj = new Date();
+        //System.out.println(df.format(dateobj));
+        return df.format(dateobj);
+    }
+
+    public String outputFile(){
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording"+dateTime()+".3gp";
     }
 
     @Override
