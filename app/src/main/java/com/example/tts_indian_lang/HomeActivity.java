@@ -107,8 +107,8 @@ public class HomeActivity extends AppCompatActivity
                     }
                     myAudioRecorder = new MediaRecorder();
                     myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                    myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                    myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+                    myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                    myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
                     myAudioRecorder.setOutputFile(outputFile());
                     myAudioRecorder.prepare();
                     myAudioRecorder.start();
@@ -163,7 +163,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
     public String outputFile(){
-        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording"+dateTime()+".3gp";
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording"+dateTime()+".mp3";
     }
 
     @Override
