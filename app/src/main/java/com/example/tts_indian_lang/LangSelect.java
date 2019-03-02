@@ -1,15 +1,22 @@
 package com.example.tts_indian_lang;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 
 public class LangSelect extends AppCompatActivity{
+    MediaPlayer mMediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer = MediaPlayer.create(this, R.raw.select_lang);
+        mMediaPlayer.start();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lang_select);
     }
