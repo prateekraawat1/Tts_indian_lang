@@ -1,6 +1,7 @@
 package com.example.tts_indian_lang;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,8 +23,14 @@ public class SlideActivity extends AppCompatActivity {
 
     private int mCureentPage;
 
+    MediaPlayer mMediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer = MediaPlayer.create(this, R.raw.slide_hindi);
+        mMediaPlayer.start();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide);
 

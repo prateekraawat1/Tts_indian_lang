@@ -50,8 +50,10 @@ public class HomeActivity extends AppCompatActivity
     Button play, record, stop;
     int languageChoice;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -203,7 +205,12 @@ public class HomeActivity extends AppCompatActivity
             // Handle the camera action
             Intent homeIntent = new Intent(HomeActivity.this, HomeActivity.class);
             startActivity(homeIntent);
-        } else if (id == R.id.nav_earn) {
+        }
+        else if (id == R.id.nav_tts) {
+            Intent homeIntent = new Intent(HomeActivity.this, TTS.class);
+            startActivity(homeIntent);
+        }
+        else if (id == R.id.nav_earn) {
             Intent homeIntent = new Intent(HomeActivity.this, Earnings.class);
             startActivity(homeIntent);
 

@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
         <item
+            android:id="@+id/nav_tts"
+            android:icon="@drawable/ic_tts"
+            android:title="TTS(Text to Speech)" />
+        <item
             android:id="@+id/nav_earn"
             android:icon="@drawable/ic_attach_money_black_24dp"
             android:title="Earnings $0.0" />
