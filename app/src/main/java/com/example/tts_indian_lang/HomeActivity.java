@@ -4,10 +4,14 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -22,21 +26,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
-    TextView textView_output;
-    SpeechRecognizer mSpeechRecognizer;
-    Intent mSpeechRecognizerIntent;
+    private static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
+
+
+    MediaRecorder myAudioRecorder;
+    String outputfile;
+    ImageButton imageButton2;
+    Button play, record, stop;
     int languageChoice;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -66,86 +83,87 @@ public class HomeActivity extends AppCompatActivity
 
         checkPermission();
 
-        textView_output = findViewById(R.id.textView_output);
 
-        mSpeechRecognizer = SpeechRecognizer.createSpeechRecognizer(this);
-        final Intent mSpeechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        mSpeechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                Locale.getDefault());
+        play = (Button) findViewById(R.id.play);
+        stop = (Button) findViewById(R.id.stop);
+        record = (Button) findViewById(R.id.record);
+        stop.setEnabled(false);
+        play.setEnabled(false);
 
-        mSpeechRecognizer.setRecognitionListener(new RecognitionListener() {
+
+  
+
+
+        record.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onReadyForSpeech(Bundle bundle) {
+            public void onClick(View v) {
+                try {
 
-            }
+                    outputfile=outputFile();
+                    // make sure the directory we plan to store the recording in exists
+                    File directory = new File(outputfile).getParentFile();
+                    if (!directory.exists() && !directory.mkdirs()) {
+                        throw new IOException("Path to file could not be created.");
+                    }
+                    myAudioRecorder = new MediaRecorder();
+                    myAudioRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                    myAudioRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+                    myAudioRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+                    myAudioRecorder.setOutputFile(outputFile());
+                    myAudioRecorder.prepare();
+                    myAudioRecorder.start();
 
-            @Override
-            public void onBeginningOfSpeech() {
-
-            }
-
-            @Override
-            public void onRmsChanged(float v) {
-
-            }
-
-            @Override
-            public void onBufferReceived(byte[] bytes) {
-
-            }
-
-            @Override
-            public void onEndOfSpeech() {
-
-            }
-
-            @Override
-            public void onError(int i) {
-
-            }
-
-            @Override
-            public void onResults(Bundle results) {
-                ArrayList<String> matches = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-                if (matches != null)
-                    textView_output.setText(matches.get(0));
-
-            }
-
-            @Override
-            public void onPartialResults(Bundle bundle) {
-
-            }
-
-            @Override
-            public void onEvent(int i, Bundle bundle) {
-
-            }
-        });
-
-        findViewById(R.id.imageButton2).setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_UP:
-                        textView_output.setHint("You will see the text here");
-                        mSpeechRecognizer.stopListening();
-                        break;
-
-                    case MotionEvent.ACTION_DOWN:
-                        textView_output.setText("");
-                        textView_output.setHint("Listening...");
-                        mSpeechRecognizer.startListening(mSpeechRecognizerIntent);
-                        break;
-
+                } catch (IllegalStateException ise) {
+                    // make something ...
+                } catch (IOException ioe) {
+                    // make something
                 }
-                return false;
+                record.setEnabled(false);
+                stop.setEnabled(true);
+                Toast.makeText(getApplicationContext(), "Recording started", Toast.LENGTH_LONG).show();
             }
         });
 
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAudioRecorder.stop();
+                myAudioRecorder.release();
+                myAudioRecorder = null;
+                record.setEnabled(true);
+                stop.setEnabled(false);
+                play.setEnabled(true);
+                Toast.makeText(getApplicationContext(), "Audio Recorded successfully", Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MediaPlayer mediaPlayer = new MediaPlayer();
+                try {
+                    mediaPlayer.setDataSource(outputfile);
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
+                    Toast.makeText(getApplicationContext(), "Playing Audio", Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    // make something
+                }
+            }
+        });
+
+    }
+
+    public String dateTime(){
+        DateFormat df = new SimpleDateFormat("yyMMddHHmmss");
+        Date dateobj = new Date();
+        //System.out.println(df.format(dateobj));
+        return df.format(dateobj);
+    }
+
+    public String outputFile(){
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/recording"+dateTime()+".mp3";
     }
 
     @Override
@@ -217,31 +235,31 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermission() {
-        // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.RECORD_AUDIO)
+                Manifest.permission.READ_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.RECORD_AUDIO)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO},
-                        MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
+            if (ActivityCompat.shouldShowRequestPermissionRationale
+                    (this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale
+                            (this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale
+                            (this, Manifest.permission.RECORD_AUDIO)) {
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+            } else {
+                requestPermissions(
+                        new String[]{Manifest.permission
+                                .READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO},
+                        PERMISSIONS_MULTIPLE_REQUEST);
             }
         } else {
-            // Permission has already been granted
+            // write your logic code if permission already granted
         }
     }
 
