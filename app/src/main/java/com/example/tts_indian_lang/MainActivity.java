@@ -3,6 +3,7 @@ package com.example.tts_indian_lang;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,8 +17,14 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences prefs=null;
     private static int SPLASH_TIME_OUT = 2000;
 
+    MediaPlayer mMediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mMediaPlayer = new MediaPlayer();
+        mMediaPlayer = MediaPlayer.create(this, R.raw.hindi_female_1);
+        mMediaPlayer.start();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = getSharedPreferences("com.example.tts_indian_lang", MODE_PRIVATE);
