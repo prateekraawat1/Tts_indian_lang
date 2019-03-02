@@ -11,5 +11,7 @@ public class GlobalClass extends Application {
 
     public int getLangChoice() {
         return langChoice;
+
     }
+    public String tts_lang;
 }

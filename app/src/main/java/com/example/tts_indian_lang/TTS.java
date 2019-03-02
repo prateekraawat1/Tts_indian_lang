@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -15,20 +16,23 @@ public class TTS extends AppCompatActivity {
     private TextToSpeech textToSpeech;
     private Button btn;
     private EditText editText;
-
+    private SeekBar seekbar;
+    private SeekBar seekBar2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final GlobalClass globalvariable = (GlobalClass) getApplicationContext();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tts);
         btn = (Button) findViewById(R.id.btn);
-
         editText = (EditText) findViewById(R.id.et);
+        seekbar = (SeekBar) findViewById(R.id.seekBar);
+        seekBar2 = (SeekBar)findViewById(R.id.seekBar2);
         textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    int ttsLang = textToSpeech.setLanguage(new Locale("hi"));
+                    int ttsLang = textToSpeech.setLanguage(new Locale(globalvariable.tts_lang));
 
                     if (ttsLang == TextToSpeech.LANG_MISSING_DATA
                             || ttsLang == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -50,6 +54,8 @@ public class TTS extends AppCompatActivity {
 
                 String data = editText.getText().toString();
                 Log.i("TTS", "button clicked: " + data);
+                textToSpeech.setPitch((float)seekbar.getProgress()/100);
+                textToSpeech.setSpeechRate((float)seekBar2.getProgress()/100);
                 int speechStatus = textToSpeech.speak(data, TextToSpeech.QUEUE_FLUSH, null);
 
                 if (speechStatus == TextToSpeech.ERROR) {
