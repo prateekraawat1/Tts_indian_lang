@@ -37,16 +37,19 @@ public class LangSelect extends AppCompatActivity{
             case R.id.radioButton1:
                 if (checked)
                     globalvariable.setLangChoice(1);
+                    globalvariable.tts_lang = "hi";
                 break;
 
             case R.id.radioButton2:
                 if (checked)
                     globalvariable.setLangChoice(2);
+                    globalvariable.tts_lang = "ba";
                 break;
 
             case R.id.radioButton3:
                 if (checked)
                     globalvariable.setLangChoice(3);
+                    globalvariable.tts_lang = "ta";
                 break;
         }
     }

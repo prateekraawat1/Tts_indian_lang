@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
-                android:text="Punjabi" />
+                android:text="Bangla" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onRadioButtonClicked"
-                android:text="Marathi" />
+                android:text="Tamil" />
 
             <Button
                 android:id="@+id/button_lang_submit"
