@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -41,7 +43,7 @@ import java.util.Locale;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int MY_PERMISSIONS_REQUEST_RECORD_AUDIO = 1;
+    private static final int PERMISSIONS_MULTIPLE_REQUEST = 123;
 
 
     MediaRecorder myAudioRecorder;
@@ -51,6 +53,7 @@ public class HomeActivity extends AppCompatActivity
     int languageChoice;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -232,31 +235,31 @@ public class HomeActivity extends AppCompatActivity
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermission() {
-        // Here, thisActivity is the current activity
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.RECORD_AUDIO)
+                Manifest.permission.READ_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) + ContextCompat
+                .checkSelfPermission(this,
+                        Manifest.permission.RECORD_AUDIO)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.RECORD_AUDIO)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed; request the permission
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.RECORD_AUDIO},
-                        MY_PERMISSIONS_REQUEST_RECORD_AUDIO);
+            if (ActivityCompat.shouldShowRequestPermissionRationale
+                    (this, Manifest.permission.READ_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale
+                            (this, Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale
+                            (this, Manifest.permission.RECORD_AUDIO)) {
 
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
+            } else {
+                requestPermissions(
+                        new String[]{Manifest.permission
+                                .READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO},
+                        PERMISSIONS_MULTIPLE_REQUEST);
             }
         } else {
-            // Permission has already been granted
+            // write your logic code if permission already granted
         }
     }
 
