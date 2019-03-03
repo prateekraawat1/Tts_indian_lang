@@ -13,5 +13,5 @@ public class GlobalClass extends Application {
         return langChoice;
 
     }
-    public String tts_lang;
+    public String tts_lang = "hi";
 }
